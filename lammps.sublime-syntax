@@ -4,6 +4,10 @@
 # Created by Torres Herrador Francisco (fratorhe@vki.ac.be)
 # To assign colors use the scopes from the color scheme
 # go to .config/sublime-text-3/Installed Packages and find your color scheme to find the scopes
+# probably not very correct way to do it, but it works...
+
+# Inspired by the syntax for atom (https://github.com/brunoduran/language-lammps)
+
 file_extensions:
   - in.*
 scope: lammps
@@ -46,28 +50,50 @@ contexts:
       scope: keyword.control.import
 
   fix:
-    # Keywords are if, else for and while.
-    # Note that blackslashes don't need to be escaped within single quoted
-    # strings in YAML. When using single quoted strings, only single quotes
-    # need to be escaped: this is done by using two single quotes next to each
-    # other.
+    # specific format for fix. BOLD face.
     - match: '\b(fix)\b'
       scope: markup.bold
 
   thermo_keywords:
-    # Keywords are if, else for and while.
-    # Note that blackslashes don't need to be escaped within single quoted
-    # strings in YAML. When using single quoted strings, only single quotes
-    # need to be escaped: this is done by using two single quotes next to each
-    # other.
+    # Thermo keywords.
     - match: '\b(step|elapsed|elaplong|dt|time|cpu|tpcpu|spcpu|cpuremain|part|timeremain|atoms|temp|press|pe|ke|etotal|enthalpy|evdwl|ecoul|epair|ebond|eangle|edihed|eimp|emol|elong|etail|vol|density|lx|ly|lz|xlo|xhi|ylo|yhi|zlo|zhi|xy|xz|yz|xlat|ylat|zlat|bonds|angles|dihedrals|impropers|pxx|pyy|pzz|pxy|pxz|pyz|fmax|fnorm|nbuild|ndanger|cella|cellb|cellc|cellalpha|cellbeta|cellgamma|SELF)\b'
       scope: variable.language.lammps
 
 
   numbers:
-    - match: '\b((-)?[0-9.]+||1e)\b'
+    # self-explanatory. Includes exponential "e" power.
+    - match: '\b((-)?[0-9.]+||(-)?[0-9.]+e)\b'
       scope: constant.numeric.lammps
 
+  user_variables_use:
+    # Variables in use ${VARIABLE}. I use xml stuff because Solarized light color scheme has a nice blue for it
+    - match: '(\$\{)(\w+)'
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.xml.html
+      push:
+        - match: '\}'
+          pop: true
+          captures:
+          scope: punctuation.definition.tag.end.html
+
+  user_variables_next:
+    # Variables being defined. I use xml stuff because Solarized light color scheme has a nice blue for it
+    # match variable next to the word variable
+    - match: '(?<=\bvariable\s)(\w+)'
+      scope: entity.name.tag.xml.html
+
+  comments:
+    # Comments begin with a '#' and finish at the end of the line.
+    - match: '#'
+      scope: punctuation.definition.comment
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line.double-slash
+        - match: $\n?
+          pop: true
+
+### NOT IN USE FOR THE MOMENT
   # strings:
   #   # Strings begin and end with quotes, and use backslashes as an escape
   #   # character.
@@ -83,32 +109,3 @@ contexts:
   #   - match: '"'
   #     scope: punctuation.definition.string.end
   #     pop: true
-
-  user_variables_use:
-    # Strings begin and end with quotes, and use backslashes as an escape
-    # character.
-    - match: '(\$\{)(\w+)'
-      captures:
-        1: punctuation.definition.tag.begin.html
-        2: entity.name.tag.xml.html
-      push:
-        - match: '\}'
-          pop: true
-          captures:
-          scope: punctuation.definition.tag.end.html
-
-  user_variables_next:
-    # match variable next to the word variable
-    # character.
-    - match: '(?<=\bvariable\s)(\w+)'
-      scope: entity.name.tag.xml.html
-
-  comments:
-    # Comments begin with a '#' and finish at the end of the line.
-    - match: '#'
-      scope: punctuation.definition.comment
-      push:
-        # This is an anonymous context push for brevity.
-        - meta_scope: comment.line.double-slash
-        - match: $\n?
-          pop: true
