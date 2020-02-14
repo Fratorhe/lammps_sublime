@@ -1,0 +1,114 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+# Created by Torres Herrador Francisco (fratorhe@vki.ac.be)
+# To assign colors use the scopes from the color scheme
+# go to .config/sublime-text-3/Installed Packages and find your color scheme to find the scopes
+file_extensions:
+  - in.*
+scope: lammps
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+
+  main:
+    # The main context is the initial starting point of our syntax.
+    # Include other contexts from here (or specify them directly).
+    - include: keywords
+    - include: numbers
+    - include: strings
+    - include: keywords2
+    - include: fix
+    - include: thermo_keywords
+    - include: user_variables_use
+    - include: user_variables_next
+
+  keywords:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '\b(angle_coeff|angle_style|atom_modify|atom_style|balance|bond_coeff|bond_style|boundary|side|change_box|clearcomm_modify|comm_style|compute_modify|compute|create_atoms|create_bonds|create_box|delete_atoms|delete_bonds|dielectric|dihedral_coeff|dihedral_style|dimension|displace_atoms|dump_modify|dump|fix_modify|group|improper_coeff|info|improper_style|kspace_modify|kspace_style|lattice|mass|minimize|min_modify|min_style|molecule|neb|neigh_modify|neighbor|newton|package|pair_coeff|pair_modify|pair_style|pair_write|partition|prd|processors|read_data|read_dump|read_restart|region|replicate|reset_timestep|restart|run|run_style|set|special_bonds|suffix|tad|temper|thermo_modify|thermo_style|thermo|timestep|uncompute|undump|unfix|units|velocity|write_data|write_dump|write_restart|nvt|wall\\.*|ave\\.*)\b'
+      scope: entity.name.type.class
+
+
+  keywords2:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '\b(clear|echo|if|include|jump|label|log|next|print|python|quit|shell|variable)\b'
+      scope: keyword.control.import
+
+  fix:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '\b(fix)\b'
+      scope: markup.bold
+
+  thermo_keywords:
+    # Keywords are if, else for and while.
+    # Note that blackslashes don't need to be escaped within single quoted
+    # strings in YAML. When using single quoted strings, only single quotes
+    # need to be escaped: this is done by using two single quotes next to each
+    # other.
+    - match: '\b(step|elapsed|elaplong|dt|time|cpu|tpcpu|spcpu|cpuremain|part|timeremain|atoms|temp|press|pe|ke|etotal|enthalpy|evdwl|ecoul|epair|ebond|eangle|edihed|eimp|emol|elong|etail|vol|density|lx|ly|lz|xlo|xhi|ylo|yhi|zlo|zhi|xy|xz|yz|xlat|ylat|zlat|bonds|angles|dihedrals|impropers|pxx|pyy|pzz|pxy|pxz|pyz|fmax|fnorm|nbuild|ndanger|cella|cellb|cellc|cellalpha|cellbeta|cellgamma|SELF)\b'
+      scope: variable.language.lammps
+
+
+  numbers:
+    - match: '\b((-)?[0-9.]+||1e)\b'
+      scope: constant.numeric.lammps
+
+  # strings:
+  #   # Strings begin and end with quotes, and use backslashes as an escape
+  #   # character.
+  #   - match: '"'
+  #     scope: punctuation.definition.string.begin
+  #     push: inside_string
+
+  # inside_string:
+  #   - meta_include_prototype: false
+  #   - meta_scope: string.quoted.double
+  #   - match: '\.'
+  #     scope: constant.character.escape
+  #   - match: '"'
+  #     scope: punctuation.definition.string.end
+  #     pop: true
+
+  user_variables_use:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character.
+    - match: '(\$\{)(\w+)'
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.xml.html
+      push:
+        - match: '\}'
+          pop: true
+          captures:
+          scope: punctuation.definition.tag.end.html
+
+  user_variables_next:
+    # match variable next to the word variable
+    # character.
+    - match: '(?<=\bvariable\s)(\w+)'
+      scope: entity.name.tag.xml.html
+
+  comments:
+    # Comments begin with a '#' and finish at the end of the line.
+    - match: '#'
+      scope: punctuation.definition.comment
+      push:
+        # This is an anonymous context push for brevity.
+        - meta_scope: comment.line.double-slash
+        - match: $\n?
+          pop: true
