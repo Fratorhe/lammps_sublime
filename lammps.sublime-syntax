@@ -36,7 +36,7 @@ contexts:
     # strings in YAML. When using single quoted strings, only single quotes
     # need to be escaped: this is done by using two single quotes next to each
     # other.
-    - match: '\b(angle_coeff|angle_style|atom_modify|atom_style|balance|bond_coeff|bond_style|boundary|side|change_box|clearcomm_modify|comm_style|compute_modify|compute|create_atoms|create_bonds|create_box|delete_atoms|delete_bonds|dielectric|dihedral_coeff|dihedral_style|dimension|displace_atoms|dump_modify|dump|fix_modify|group|improper_coeff|info|improper_style|kspace_modify|kspace_style|lattice|mass|minimize|min_modify|min_style|molecule|neb|neigh_modify|neighbor|newton|package|pair_coeff|pair_modify|pair_style|pair_write|partition|prd|processors|read_data|read_dump|read_restart|region|replicate|reset_timestep|restart|run|run_style|set|special_bonds|suffix|tad|temper|thermo_modify|thermo_style|thermo|timestep|uncompute|undump|unfix|units|velocity|write_data|write_dump|write_restart|nvt|npt|wall\\.*|ave\\.*)\b'
+    - match: '\b(angle_coeff|momentum|angle_style|atom_modify|atom_style|balance|bond_coeff|bond_style|boundary|side|change_box|clearcomm_modify|comm_style|compute_modify|compute|create_atoms|create_bonds|create_box|delete_atoms|delete_bonds|dielectric|dihedral_coeff|dihedral_style|dimension|displace_atoms|dump_modify|dump|fix_modify|group|improper_coeff|info|improper_style|kspace_modify|kspace_style|lattice|mass|minimize|min_modify|min_style|molecule|neb|neigh_modify|neighbor|newton|package|pair_coeff|pair_modify|pair_style|pair_write|partition|prd|processors|read_data|read_dump|read_restart|region|replicate|reset_timestep|restart|run|run_style|set|special_bonds|suffix|tad|temper|thermo_modify|thermo_style|thermo|timestep|uncompute|undump|units|velocity|write_data|write_dump|write_restart|nve|nvt|npt|wall\\.*|ave\\.*)\b'
       scope: entity.name.type.class
 
 
@@ -51,12 +51,12 @@ contexts:
 
   fix:
     # specific format for fix. BOLD face.
-    - match: '\b(fix)\b'
+    - match: '\b(fix|unfix)\b'
       scope: markup.bold
 
   thermo_keywords:
     # Thermo keywords.
-    - match: '\b(step|elapsed|elaplong|dt|time|cpu|tpcpu|spcpu|cpuremain|part|timeremain|atoms|temp|press|pe|ke|etotal|enthalpy|evdwl|ecoul|epair|ebond|eangle|edihed|eimp|emol|elong|etail|vol|density|lx|ly|lz|xlo|xhi|ylo|yhi|zlo|zhi|xy|xz|yz|xlat|ylat|zlat|bonds|angles|dihedrals|impropers|pxx|pyy|pzz|pxy|pxz|pyz|fmax|fnorm|nbuild|ndanger|cella|cellb|cellc|cellalpha|cellbeta|cellgamma|SELF)\b'
+    - match: '\b(step|elapsed|elaplong|dt|time|cpu|tpcpu|spcpu|cpuremain|part|timeremain|atoms|temp|press|pe|ke|etotal|enthalpy|evdwl|ecoul|epair|ebond|eangle|edihed|eimp|emol|elong|etail|vol|density|msd|lx|ly|lz|xlo|xhi|ylo|yhi|zlo|zhi|xy|xz|yz|xlat|ylat|zlat|bonds|angles|dihedrals|impropers|pxx|pyy|pzz|pxy|pxz|pyz|fmax|fnorm|nbuild|ndanger|cella|cellb|cellc|cellalpha|cellbeta|cellgamma|SELF)\b'
       scope: variable.language.lammps
 
 
