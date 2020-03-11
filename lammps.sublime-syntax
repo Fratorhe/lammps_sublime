@@ -9,7 +9,7 @@
 # Inspired by the syntax for atom (https://github.com/brunoduran/language-lammps)
 
 file_extensions:
-  - in.*
+  - *.lammps
 scope: lammps
 
 contexts:
